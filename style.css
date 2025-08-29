@@ -1,0 +1,281 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: linear-gradient(135deg, #0a0a0f, #111118);
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#app {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.screen {
+    display: none;
+    text-align: center;
+}
+
+.screen.active {
+    display: block;
+}
+
+.logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    color: #4fc3f7;
+    text-shadow: 0 0 20px rgba(79, 195, 247, 0.5);
+}
+
+.safe {
+    position: relative;
+    background: radial-gradient(circle at center, #2c3e50, #1a252f);
+    border: 8px solid #34495e;
+    border-radius: 20px;
+    padding: 40px;
+    margin: 30px auto;
+    max-width: 500px;
+    box-shadow: 
+        0 0 50px rgba(0, 0, 0, 0.8),
+        inset 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.slots {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.slot {
+    width: 100px;
+    height: 120px;
+    background: linear-gradient(145deg, #1e2631, #0f1419);
+    border: 3px solid #34495e;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.slot.active {
+    border-color: #4fc3f7;
+    box-shadow: 
+        0 0 20px rgba(79, 195, 247, 0.5),
+        inset 0 0 20px rgba(79, 195, 247, 0.1);
+}
+
+.slot.correct {
+    border-color: #4caf50;
+    box-shadow: 
+        0 0 20px rgba(76, 175, 80, 0.7),
+        inset 0 0 20px rgba(76, 175, 80, 0.2);
+}
+
+.digit-display {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #4fc3f7;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    text-shadow: 0 0 10px currentColor;
+}
+
+.slot.correct .digit-display {
+    color: #4caf50;
+}
+
+.safe-door {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(145deg, #2c3e50, #1a252f);
+    border-radius: 12px;
+    opacity: 0;
+    transform: perspective(1000px) rotateY(-90deg);
+    transform-origin: left center;
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+}
+
+.safe.unlocked .safe-door {
+    opacity: 1;
+    transform: perspective(1000px) rotateY(-120deg);
+}
+
+.controls-hint {
+    margin-top: 30px;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.enter-button {
+    margin-top: 20px;
+    padding: 15px 40px;
+    background: linear-gradient(145deg, #4fc3f7, #29b6f6);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-family: inherit;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+}
+
+.enter-button:hover {
+    background: linear-gradient(145deg, #81d4fa, #4fc3f7);
+    box-shadow: 0 5px 25px rgba(79, 195, 247, 0.6);
+    transform: translateY(-2px);
+}
+
+.enter-button:active {
+    transform: translateY(0);
+}
+
+#reset-game {
+    margin-top: 30px;
+    padding: 12px 24px;
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-family: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#reset-game:hover {
+    background: linear-gradient(145deg, #ec7063, #e74c3c);
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+}
+
+@keyframes spin-in {
+    from {
+        transform: translateY(-100px) rotateX(90deg);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) rotateX(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes buzz {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    10% { transform: translateX(-2px) translateY(-1px); }
+    20% { transform: translateX(2px) translateY(1px); }
+    30% { transform: translateX(-1px) translateY(-2px); }
+    40% { transform: translateX(1px) translateY(2px); }
+    50% { transform: translateX(-2px) translateY(1px); }
+    60% { transform: translateX(2px) translateY(-1px); }
+    70% { transform: translateX(-1px) translateY(2px); }
+    80% { transform: translateX(1px) translateY(-2px); }
+    90% { transform: translateX(-2px) translateY(-1px); }
+}
+
+@keyframes spin-out {
+    from {
+        transform: translateY(0) rotateX(0deg);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(100px) rotateX(-90deg);
+        opacity: 0;
+    }
+}
+
+.digit-display.spinning-out {
+    animation: spin-out 0.3s ease-in-out forwards;
+}
+
+.digit-display.spinning-in {
+    animation: spin-in 0.3s ease-in-out forwards;
+}
+
+.matrix-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, background-color 3s ease;
+}
+
+.matrix-overlay.active {
+    opacity: 1;
+}
+
+.matrix-overlay.darkening {
+    background: black;
+}
+
+#matrix-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.terminal-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Courier New', monospace;
+    font-size: 2rem;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.terminal-text.visible {
+    opacity: 1;
+}
+
+.terminal-text::after {
+    content: '_';
+    animation: cursor-blink 1s infinite;
+}
+
+@keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}

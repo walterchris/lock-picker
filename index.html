@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lock Picker Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div id="lockpicker" class="screen active">
+            <img src="https://images.seeklogo.com/logo-png/60/2/9elements-icon-logo-png_seeklogo-609779.png" alt="9elements" class="logo">
+            <div class="safe">
+                <div class="slots">
+                    <div class="slot active" data-slot="0">
+                        <div class="digit-display">0</div>
+                    </div>
+                    <div class="slot" data-slot="1">
+                        <div class="digit-display">0</div>
+                    </div>
+                    <div class="slot" data-slot="2">
+                        <div class="digit-display">0</div>
+                    </div>
+                </div>
+                <div class="safe-door"></div>
+            </div>
+            <div class="controls-hint">
+                <p>Use keys 1/2/3 (or O/S/F) to select slots</p>
+                <p>Use arrow keys or knob to change digits</p>
+                <p>Press Enter/Space or knob to confirm</p>
+            </div>
+            <button id="enter-combination" class="enter-button">UNLOCK</button>
+        </div>
+        
+        <div id="game" class="screen">
+            <h1>Real Game</h1>
+            <p>Congratulations! You've unlocked the safe!</p>
+            <p>This is where the real game would go...</p>
+            <button id="reset-game">Reset Lock</button>
+        </div>
+    </div>
+    
+    <div id="matrix-overlay" class="matrix-overlay">
+        <canvas id="matrix-canvas"></canvas>
+        <div id="terminal-text" class="terminal-text"></div>
+    </div>
+    
+    <script type="module" src="main.js"></script>
+</body>
+</html>
